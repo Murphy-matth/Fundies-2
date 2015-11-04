@@ -60,6 +60,9 @@ class Transporter implements transportation {
 			to = this.to;
 			from = this.from;
 		}
+		else {
+			throw new IllegalArgumentException("Invalid Parameters");
+		}
 	}
 	public boolean ValidTravel(habitation to, habitation from) {
 		return true;
@@ -79,6 +82,9 @@ class Shuttle implements transportation {
 			fuel = this.fuel;
 			capacity = this.capacity;
 		}
+		else {
+			throw new IllegalArgumentException("Invalid Parameters");
+		}
 	}
 	
 	public boolean ValidTravel(habitation to, habitation from) {
@@ -94,6 +100,9 @@ class SpaceElevator implements transportation {
 		if(ValidTravel(to, from)) {
 			to = this.to;
 			from = this.from;
+		}
+		else {
+			throw new IllegalArgumentException("Invalid Parameters");
 		}
 	}
 	
