@@ -5,17 +5,17 @@ public class WebPage {
 	ILoItem item;
 	
 	public WebPage(String url, String title, ILoItem item) {
-		url = this.url;
-		title = this.title;
-		item = this.item;
+		this.url = url;
+		this.title = title;
+		this.item = item;
 	}
 	
 	public int totalImageSize() {
-		return item.getsize();
+		return this.item.getsize();
 	}
 	
 	public int textLength() {
-		return title.length() + item.textLength();
+		return this.title.length() + this.item.textLength();
 	}
 	
 	public String images() {
@@ -56,12 +56,12 @@ class ConsLoItem implements ILoItem{
 	ILoItem rest;
 	
 	ConsLoItem(Item first, ILoItem rest) {
-		first = this.first;
-		rest = this.rest;
+		this.first = first;
+		this.rest = rest;
 	}
 	
 	public int getsize() {
-		return first.getsize() + rest.getsize();
+		return this.first.getsize() + this.rest.getsize();
 	}
 	
 	public int textLength() {
@@ -92,7 +92,7 @@ class Text implements Item {
 	String contents;
 	
 	Text(String contents) {
-		contents = this.contents;
+		this.contents = contents;
 	}
 	
 	public int getsize() {
@@ -114,9 +114,9 @@ class Image implements Item {
 	String fileType;
 	
 	Image(String filename, int size, String fileType) {
-		filename = this.filename;
-		size = this.size;
-		fileType = this.fileType;
+		this.filename = filename;
+		this.size = size;
+		this.fileType = fileType;
 	}
 	
 	public int getsize() {
@@ -137,8 +137,8 @@ class Link implements Item {
 	String name;
 	
 	Link(WebPage page, String name) {
-		page = this.page;
-		name = this.name;
+		this.page = page;
+		this.name = name;
 	}
 	
 	public int getsize() {
