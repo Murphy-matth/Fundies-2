@@ -11,7 +11,7 @@ class EmptyShell implements ITaco {
 	boolean softshell;
 	
 	EmptyShell(boolean softshell) {
-		softshell = this.softshell;
+		this.softshell = softshell;
 	}
 }
 
@@ -20,8 +20,8 @@ class Filled implements ITaco {
 	String filled;
 	
 	Filled(ITaco taco, String filled) {
-		taco = this.taco;
-		filled = this.filled;
+		this.taco = taco;
+		this.filled = filled;
 	}
 }
 
@@ -35,3 +35,4 @@ class Example {
 	ITaco F3 = new Filled(this.f2, "salsa");
 	ITaco F4 = new Filled(this.F3, "carnitas");
 }
+
