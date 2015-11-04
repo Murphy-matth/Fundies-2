@@ -10,10 +10,9 @@ public class Person1 {
 	
 	
 	public Person1 (String name, int yob, String state, boolean citizen) {
-		name = this.name;
-		yob = this.yob;
-		state = this.state;
-		citizen = this.citizen;
+		this.name = name;
+		this.yob = yob;
+		this.state = state;
+		this.citizen = citizen;
 	}
 }
-
