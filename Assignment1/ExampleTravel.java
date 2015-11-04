@@ -17,9 +17,9 @@ class Planet implements habitation {
 	int spaceports;
 	
 	Planet(String name, int population, int spaceports) {
-		name = this.name;
-		population = this.population;
-		spaceports = this.spaceports;
+		this.name = name;
+		this.population = population;
+		this.spaceports = spaceports;
 	}
 	
 	public boolean ShuttleAllowed() {
@@ -37,9 +37,9 @@ class SpaceStation implements habitation {
 	int transporterpads;
 	
 	SpaceStation(String name, int population, int transporterpads) {
-		name = this.name;
-		population = this.population;
-		transporterpads = this.transporterpads;
+		this.name = name;
+		this.population = population;
+		this.transporterpads = transporterpads;
 	}
 	
 	public boolean ShuttleAllowed() {
@@ -57,8 +57,8 @@ class Transporter implements transportation {
 	
 	Transporter(habitation to, habitation from) {
 		if(ValidTravel(to, from)) {
-			to = this.to;
-			from = this.from;
+			this.to = to;
+			this.from = from;
 		}
 		else {
 			throw new IllegalArgumentException("Invalid Parameters");
@@ -77,10 +77,10 @@ class Shuttle implements transportation {
 	
 	Shuttle(habitation to, habitation from, int fuel, int capacity) {
 		if(ValidTravel(to, from)) {
-			to = this.to;
-			from = this.from;
-			fuel = this.fuel;
-			capacity = this.capacity;
+			this.to = to;
+			this.from = from;
+			fuel = this.fuel = fuel;
+			this.capacity = capacity;
 		}
 		else {
 			throw new IllegalArgumentException("Invalid Parameters");
@@ -98,8 +98,8 @@ class SpaceElevator implements transportation {
 	
 	SpaceElevator(habitation to, habitation from) {
 		if(ValidTravel(to, from)) {
-			to = this.to;
-			from = this.from;
+			this.to = to;
+			this.from = from;
 		}
 		else {
 			throw new IllegalArgumentException("Invalid Parameters");
