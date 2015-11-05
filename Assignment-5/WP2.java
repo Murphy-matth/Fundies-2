@@ -126,9 +126,34 @@ interface Item {
 	boolean sameText(Text that);
 	boolean sameImage(Image that);
 	boolean sameLink(Link that);
+	boolean sameParagraph(Paragraph that);
+	boolean sameHeader(Header that);
 }
 
-class Text implements Item {
+abstract class AItem implements Item {
+	public abstract int getsize();
+	public abstract int textLength();
+	public abstract String images();
+	public abstract boolean sameItem(Item that);
+	
+	public boolean sameText(Text that) {
+		return false;
+	}
+	public boolean sameImage(Image that) {
+		return false;
+	}
+	public boolean sameLink(Link that) {
+		return false;
+	}
+	public boolean sameParagraph(Paragraph that) {
+		return false;
+	}
+	public boolean sameHeader(Header that) {
+		return false;
+	}
+}
+
+class Text extends AItem {
 	String contents;
 	
 	Text(String contents) {
@@ -157,15 +182,23 @@ class Text implements Item {
 			return false;
 		}
 	}
-	public boolean sameImage(Image that) {
-		return false;
-	}
-	public boolean sameLink(Link that) {
-		return false;
-	}
 }
 
-class Image implements Item {
+class Paragraph extends Text {
+	Paragraph(String contents) {
+		super(contents);
+	}
+	
+}
+
+class Header extends Text {
+	Header(String contents) {
+		super(contents);
+	}
+	
+}
+
+class Image extends AItem {
 	String filename;
 	int size;
 	String fileType;
@@ -190,9 +223,6 @@ class Image implements Item {
 	public boolean sameItem(Item that) {
 		return that.sameImage(this);
 	}
-	public boolean sameText(Text that) {
-		return false;
-	}
 	public boolean sameImage(Image that) {
 		if (this.filename == that.filename &&
 				this.size == that.size &&
@@ -203,12 +233,9 @@ class Image implements Item {
 			return false;
 		}
 	}
-	public boolean sameLink(Link that) {
-		return false;
-	}
 }
 
-class Link implements Item {
+class Link extends AItem {
 	WebPage page;
 	String name;
 	
@@ -230,12 +257,6 @@ class Link implements Item {
 	}
 	public boolean sameItem(Item that) {
 		return that.sameLink(this);
-	}
-	public boolean sameText(Text that) {
-		return false;
-	}
-	public boolean sameImage(Image that) {
-		return false;
 	}
 	public boolean sameLink(Link that) {
 		if (this.name == that.name && this.page.sameWebPage(that.page)) {
