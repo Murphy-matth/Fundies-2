@@ -16,6 +16,7 @@ interface IList <T> {
 	IList<T> sort(IComparator<T> comp);
 	IList<T> insertBy(IComparator<T> comp, T t);
 	int length();
+	ABST<T> buildTree(ABST<T> that);
 }
 
 
@@ -26,6 +27,9 @@ class MtList<T> implements IList<T> {
     	return new ConsList<T>(t, this);
     }
 	public int length() { return 0; }
+	public ABST<T> buildTree(ABST<T> that) {
+		return that;
+	}
 }
 
 class ConsList<T> implements IList<T> {
@@ -60,6 +64,10 @@ class ConsList<T> implements IList<T> {
 		else {
 			return new ConsList<T>(t, this);
 		}
+	}
+	
+	public ABST<T> buildTree(ABST<T> that) {
+		return this.rest.buildTree(that.insert(this.first));
 	}
 }
 
