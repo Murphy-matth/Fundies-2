@@ -33,6 +33,14 @@ class Instructor {
 		this.name = name;
 		this.courses = new MtList<Course>();
 	}
+	public boolean dejavu(Student C) {
+		if (this.courses.overlappingCount(C.courses, 0) > 1){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
 
 class Student {
@@ -52,7 +60,7 @@ class Student {
 	}
 	
 	public boolean classmates(Student c) {
-		return true;
+		return this.courses.overlapping(c.courses);
 	}
 }
 
@@ -75,6 +83,13 @@ interface IList <T> {
 	IList<T> sort(IComparator<T> comp);
 	IList<T> insertBy(IComparator<T> comp, T t);
 	int length();
+	boolean contains(T item);
+	boolean overlapping(IList<T> that);
+	boolean overlappingMtList(MtList<T> that);
+	boolean overlappingConsList(ConsList<T> that);
+	int overlappingCount(IList<T> that, int acc);
+	int overlappingCountMtList(MtList<T> that, int acc);
+	int overlappingCountConsList(ConsList<T> that, int acc);
 }
 
 
@@ -85,6 +100,25 @@ class MtList<T> implements IList<T> {
     	return new ConsList<T>(t, this);
     }
 	public int length() { return 0; }
+	public boolean contains(T item) { return false; }
+	public boolean overlapping(IList<T> that) {
+		return that.overlappingMtList(this);
+	}
+	public boolean overlappingMtList(MtList<T> that) {
+		return false;
+	}
+	public boolean overlappingConsList(ConsList<T> that) {
+		return false;
+	}
+	public int overlappingCount(IList<T> that, int acc) {
+		return that.overlappingCountMtList(this, acc);
+	}
+	public int overlappingCountMtList(MtList<T> that, int acc) {
+		return acc;
+	}
+	public int overlappingCountConsList(ConsList<T> that, int acc) {
+		return acc;
+	}
 }
 
 class ConsList<T> implements IList<T> {
@@ -118,6 +152,42 @@ class ConsList<T> implements IList<T> {
 		}
 		else {
 			return new ConsList<T>(t, this);
+		}
+	}
+	public boolean contains(T item) {
+		if (this.first == item) {
+			return true;
+		}
+		else {
+			return this.rest.contains(item);
+		}
+	}
+	public boolean overlapping(IList<T> that) {
+		return that.overlappingConsList(this);
+	}
+	public boolean overlappingMtList(MtList<T> that) {
+		return false;
+	}
+	public boolean overlappingConsList(ConsList<T> that) {
+		if (that.first == this.first) {
+			return true;
+		}
+		else {
+			return this.rest.overlapping(that.rest);
+		}
+	}
+	public int overlappingCount(IList<T> that, int acc) {
+		return that.overlappingCountConsList(this, acc);
+	}
+	public int overlappingCountMtList(MtList<T> that, int acc) {
+		return acc;
+	}
+	public int overlappingCountConsList(ConsList<T> that, int acc) {
+		if (that.first == this.first) {
+			return this.rest.overlappingCount(that.rest, acc + 1);
+		}
+		else {
+			return this.rest.overlappingCount(that.rest, acc);
 		}
 	}
 }
