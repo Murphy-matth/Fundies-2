@@ -4,6 +4,48 @@ public class Registrar {
 
 }
 
+class ExampleRegistrar {
+	ExampleRegistrar() {}
+	
+
+	
+	
+	
+	boolean test(Tester t) {
+		Instructor bob = new Instructor("Bob");
+		Instructor matt = new Instructor("Matt");
+		Student jon = new Student("Jon", 1);
+		Student kun = new Student("Kun", 2);
+		Student jed = new Student("Jed", 3);
+		Course calc1 = new Course("Calc1", bob, new MtList<Student>());
+		Course calc2 = new Course("Calc2", matt, new MtList<Student>());
+		Course calc3 = new Course("Calc3", bob, new MtList<Student>());
+		jon.enroll(calc1);
+		jon.enroll(calc2);
+		jon.enroll(calc3);
+		kun.enroll(calc1);
+		bob.enroll(calc1);
+		bob.enroll(calc3);
+		matt.enroll(calc2);
+		jed.enroll(calc3);
+		return t.checkExpect(calc2.students, new ConsList<Student>(jon, new MtList<Student>())) &&
+				t.checkExpect(calc1.students, new ConsList<Student>(kun,new ConsList<Student>(jon, new MtList<Student>()))) &&
+				t.checkExpect(kun.courses, new ConsList<Course>(calc1, new MtList<Course>())) &&
+				t.checkExpect(jon.courses, new ConsList<Course>(calc3, new ConsList<Course>(calc2, new ConsList<Course>(calc1, new MtList<Course>())))) &&
+				t.checkExpect(calc1.equals(calc3), false) &&
+				t.checkExpect(calc1.equals(calc1), true) &&
+				t.checkExpect(jon.courses.overlapping(jon.courses), true) &&
+				t.checkExpect(calc1.equals(calc1), true) &&
+				t.checkExpect(calc1.equals(calc3), false) &&
+				t.checkExpect(jon.courses.overlapping(kun.courses), true) && 
+				t.checkExpect(kun.courses.overlapping(jed.courses), false) &&
+				t.checkExpect(bob.dejavu(jon), true) &&
+				t.checkExpect(bob.dejavu(jed), false) &&
+				t.checkExpect(matt.dejavu(kun), false) &&
+				t.checkExpect(matt.courses.overlappingCount(kun.courses, 0), 0);
+	}
+}
+
 class Course {
 	String name;
 	Instructor instructor;
@@ -35,6 +77,17 @@ class Instructor {
 	}
 	public boolean dejavu(Student C) {
 		if (this.courses.overlappingCount(C.courses, 0) > 1){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public void enroll(Course C) {
+		this.courses = new ConsList<Course>(C, this.courses);
+	}
+	public boolean sameInstructor(Instructor that) {
+		if(this.name == that.name) {
 			return true;
 		}
 		else {
@@ -169,11 +222,11 @@ class ConsList<T> implements IList<T> {
 		return false;
 	}
 	public boolean overlappingConsList(ConsList<T> that) {
-		if (that.first == this.first) {
+		if (this.contains(that.first)) {
 			return true;
 		}
 		else {
-			return this.rest.overlapping(that.rest);
+			return that.rest.overlapping(this);
 		}
 	}
 	public int overlappingCount(IList<T> that, int acc) {
@@ -183,11 +236,11 @@ class ConsList<T> implements IList<T> {
 		return acc;
 	}
 	public int overlappingCountConsList(ConsList<T> that, int acc) {
-		if (that.first == this.first) {
-			return this.rest.overlappingCount(that.rest, acc + 1);
+		if (this.contains(that.first)) {
+			return that.rest.overlappingCount(this, acc + 1);
 		}
 		else {
-			return this.rest.overlappingCount(that.rest, acc);
+			return that.rest.overlappingCount(this, acc);
 		}
 	}
 }
