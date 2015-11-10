@@ -1,3 +1,5 @@
+import tester.Tester;
+
 
 public class Dequeue {
 
@@ -156,3 +158,30 @@ class Deque<T> {
 		this.header.next.removeNode(node);
 	}
 }
+
+
+
+
+class ExampleDeque {
+	ExampleDeque() {}
+	
+	Deque<String> deque1 = new Deque<String>();
+	Deque<String> deque2 = new Deque<String>(new Sentinel<String>());
+	Deque<String> deque3 = new Deque<String>(new Sentinel<String>());
+	
+	
+	boolean test(Tester t) {
+		deque2.addAtHead("def");
+		deque2.addAtHead("cde");
+		deque2.addAtHead("bcd");
+		deque2.addAtHead("acd");
+		
+		return t.checkExpect(deque2, deque2);
+	}
+	
+}
+
+
+
+
+
