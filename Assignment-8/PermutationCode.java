@@ -1,4 +1,5 @@
 import java.util.*;
+import tester.Tester;
 
 /**
  * A class that defines a new permutation code, as well as methods for encoding
@@ -34,13 +35,14 @@ public class PermutationCode{
     /** Initialize the encoding permutation of the characters */
     ArrayList<Character> initEncoder(){
     	ArrayList<Character> temp = new ArrayList<Character>(this.alphabet);
+    	ArrayList<Character> temp1 = new ArrayList<Character>();
     	int index = 0;
-    	for (int i = this.alphabet.size() - 1; i >= 0; i++) {
+    	for (int i = this.alphabet.size(); i > 0; i--) {
     		index = rand.nextInt(i);
-    		this.code.add(temp.get(index));
+    		temp1.add(temp.get(index));
     		temp.remove(index);
     	}
-        return temp;
+    	return temp1;
     }
 
     /**
@@ -83,4 +85,24 @@ public class PermutationCode{
        	}
        	throw new IllegalArgumentException("Char is not found in the alphabet");
     }
+}
+
+
+
+class ExampleCode {
+	ExampleCode() {}
+	
+	ArrayList<Character> myCode = 
+        new ArrayList<Character>(Arrays.asList(
+                     'b', 'a', 'd', 'z', 'f', 'w', 'p', 'g', 'h', 'i', 'j', 
+                    'k','t', 'c', 'l', 'n', 'm', 'o', 'e','q', 'r', 's', 
+                     'u', 'v', 'x', 'y'));
+	
+	PermutationCode test = new PermutationCode(this.myCode);
+	PermutationCode test1 = new PermutationCode();
+	boolean test(Tester t) {
+		return t.checkExpect(test.encode("matt"), "tbqq") &&
+				t.checkExpect(test.decode("tbqq"), "matt") &&
+				t.checkExpect(test1.decode(test1.encode("matt")),"matt");
+	}
 }
