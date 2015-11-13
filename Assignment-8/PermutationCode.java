@@ -22,7 +22,7 @@ public class PermutationCode{
      * Create a new instance of the encoder/decoder with a new permutation code 
      */
     PermutationCode(){
-        this.code = this.initEncoder();
+        this.initEncoder();
     }
 
     /**
@@ -33,16 +33,15 @@ public class PermutationCode{
     }
 
     /** Initialize the encoding permutation of the characters */
-    ArrayList<Character> initEncoder(){
+    private void initEncoder(){
     	ArrayList<Character> temp = new ArrayList<Character>(this.alphabet);
-    	ArrayList<Character> temp1 = new ArrayList<Character>();
     	int index = 0;
     	for (int i = this.alphabet.size(); i > 0; i--) {
     		index = rand.nextInt(i);
-    		temp1.add(temp.get(index));
+    		this.code.add(temp.get(index));
     		temp.remove(index);
     	}
-    	return temp1;
+    	
     }
 
     /**
