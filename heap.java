@@ -17,7 +17,7 @@ class Heap<T> {
 	}
 	
 	Heap(ArrayList<T> data, IComparator<T> comp) {
-		this.data = data;
+		this.data = new ArrayList<T>(data);
 		this.comp = comp;
 		this.count = this.data.size();
 		this.buildHeap();
@@ -142,15 +142,25 @@ class ExampleHeap {
 		this.myHeap.buildHeap();
 		
 		ArrayList<Integer> hint = new ArrayList<Integer>();
+		ArrayList<Integer> hint1 = new ArrayList<Integer>();
 		hint.add(20);
 		hint.add(5);
 		hint.add(4);
 		hint.add(3);
 		hint.add(2);
 		hint.add(1);
+		Heap<Integer> myHeap1 = new Heap<Integer>(hint, this.comp);
+		myHeap1.extract();
+		hint1.add(5);
+		hint1.add(3);
+		hint1.add(4);
+		hint1.add(1);
+		hint1.add(2);
+		hint1.add(20);
 		
 		
-		return t.checkExpect(this.myHeap.heapSort(), hint);
+		return t.checkExpect(this.myHeap.heapSort(), hint) &&
+				t.checkExpect(myHeap1.print(), hint1);
 		
 	}
 	
