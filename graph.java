@@ -10,12 +10,23 @@ class Vertex {
 	public ArrayList<Edge> getEdges() {
 		return this.outEdges;
 	}
+	
+	public boolean sameVertex(Vertex v) {
+		/*
+		 * Incomplete
+		 */
+		return true;
+	}
 }
 
 class Edge {
 	Vertex from;
 	Vertex to;
 	int weight;
+	
+	public boolean matches(Vertex v) {
+		return v.sameVertex(this.to);
+	}
 }
 
 class Graph {
@@ -30,10 +41,10 @@ class Graph {
 		return edges;
 	}
 	
-	public ArrayList<Edge> inEdges(Vertex v) {
-		ArrayList<Edge> edges = new ArrayList<Edge>();
+	public ArrayList<Vertex> inEdges(Vertex v) {
+		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 		
 		
-		return edges;
+		return vertices;
 	}
 }
