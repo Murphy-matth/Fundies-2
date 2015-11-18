@@ -4,38 +4,56 @@ import tester.Tester;
 
 class Heap<T> {
 	ArrayList<T> data;
-	/*
-	 * The if the first value is larger returns > 0
-	 */
-	IComparator<T> comp;
+	Comparator<T> comp;
 	int count;
 	
-	Heap(IComparator<T> comp) {
+	/*
+	 * Construct an empty heap
+	 */
+	Heap(Comparator<T> comp) {
 		this.data = new ArrayList<T>();
 		this.comp = comp;
 		this.count = 0;
 	}
 	
-	Heap(ArrayList<T> data, IComparator<T> comp) {
+	/*
+	 * Construct a heap based on the ArrayList of data and the
+	 * comparator
+	 */
+	Heap(ArrayList<T> data, Comparator<T> comp) {
 		this.data = new ArrayList<T>(data);
 		this.comp = comp;
 		this.count = this.data.size();
 		this.buildHeap();
 	}
 	
+	/*
+	 * Returns the parent index
+	 * Will return index's out of the bounds of the ArrayList
+	 */
 	public int getParent(int index) {
 		return (int)Math.floor(((index - 1) / 2));
 	}
 	
+	/*
+	 * Returns the left child index
+	 * Will return index's out of the bounds of the ArrayList
+	 */
 	public int leftChild(int index) {
 		return (2 * index) + 2;
 	}
+	
+	/*
+	 * Returns the right child index
+	 * Will return index's out of the bounds of the ArrayList
+	 */
 	public int rightChild(int index) {
 		return (2 * index) + 1;
 	}
 	
 	/*
-	 * Insert an item into the heap, adds to the end and bubbles it up
+	 * Insert an item into the heap
+	 * adds to the end and bubbles it up
 	 */
 	public void insert(T item) {
 		this.add(item);
@@ -70,15 +88,23 @@ class Heap<T> {
 		}
 	}
 	
+	/*
+	 * Returns the first element in the heap
+	 * Removes it from the heap by placing it at the end
+	 * And decreasing the count
+	 */
 	public T extract() {
 		T item = this.data.get(0);
 		this.swap(0, this.count - 1);
 		this.count--;
-		this.maxHeapify(0);
+		this.Heapify(0);
 		return item;
 	}
 	
-	public void maxHeapify(int index) {
+	/*
+	 * Builds a heap from this index
+	 */
+	public void Heapify(int index) {
 		int left = this.leftChild(index);
 		int right = this.rightChild(index);
 		int largest = index;
@@ -90,20 +116,34 @@ class Heap<T> {
 		}
 		if (largest != index) {
 			this.swap(index, largest);
-			this.maxHeapify(largest);
+			this.Heapify(largest);
 		}
 	}
 	
+	/*
+	 * Creates the heap from the ArrayList
+	 * by calling build heap for all the indices
+	 * in the ArrayList
+	 * starting from the end
+	 */
 	public void buildHeap() {
 		for (int i = this.count - 1; i >= 0; i--) {
-			this.maxHeapify(i);
+			this.Heapify(i);
 		}
 	}
 	
+	/*
+	 * Dosen't actually print just returns the ArrayList
+	 */
 	public ArrayList<T> print() {
 		return this.data;
 	}
 	
+	/*
+	 * Returns a sorted version of the heap
+	 * as an ArrayList
+	 * Note does not actually sort the heap
+	 */
 	public ArrayList<T> heapSort() {
 		ArrayList<T> output = new ArrayList<T>();
 		Heap<T> temp = new Heap<T>(this.data, this.comp);
@@ -114,11 +154,7 @@ class Heap<T> {
 	}
 }
 
-interface IComparator <T> {
-	int compare(T t1, T t2);
-}
-
-class compareHeap implements IComparator<Integer> {
+class heapCompare implements Comparator<Integer> {
 	public int compare(Integer t1, Integer t2) {
 		return t1 - t2;
 	}
@@ -129,7 +165,7 @@ class ExampleHeap {
 	ExampleHeap() {}
 	
 	ArrayList<Integer> data = new ArrayList<Integer>();
-	compareHeap comp = new compareHeap();
+	heapCompare comp = new heapCompare();
 	Heap<Integer> myHeap = new Heap<Integer>(this.comp);
 	
 	boolean test(Tester t) {
